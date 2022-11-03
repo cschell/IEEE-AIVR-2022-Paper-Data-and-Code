@@ -1,0 +1,4 @@
+_target_: src.models.rnn_model.RNNModel
+
+defaults:
+  - hyperparameters: rnn_hyperparameters.yaml

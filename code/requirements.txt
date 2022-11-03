@@ -1,0 +1,19 @@
+# There is a bug starting in 1.6.0 up at least 1.6.5 that
+# prevents the auto batch scaler from working; Issue opened
+# at https://github.com/Lightning-AI/lightning/issues/13696
+pytorch-lightning<1.6.0
+pytorch-metric-learning
+faiss-gpu
+hydra-core>=1.2.0
+hydra-colorlog
+python-dotenv
+rich
+sh
+pudb
+tables
+numpy
+scipy
+scikit-learn
+pandas
+setuptools==59.5.0
+wandb

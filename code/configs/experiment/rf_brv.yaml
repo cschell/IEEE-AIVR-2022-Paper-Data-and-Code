@@ -1,0 +1,18 @@
+# @package _global_
+
+defaults:
+  - override /model: random_forest_model.yaml
+  - override /datamodule: bin_datamodule.yaml
+
+run_group: rf_brv
+
+datamodule:
+  data_hyperparameters:
+    data_selection:
+      value: "body_relative_velocity"
+    frames_per_bin: 700
+
+model:
+  hyperparameters:
+    n_estimators: 78
+    min_samples_leaf: 2

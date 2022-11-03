@@ -1,0 +1,4 @@
+_target_: src.models.mlp_model.MLPModel
+
+defaults:
+  - hyperparameters: mlp_hyperparameters.yaml

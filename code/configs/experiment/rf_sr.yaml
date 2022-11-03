@@ -1,0 +1,18 @@
+# @package _global_
+
+defaults:
+  - override /model: random_forest_model.yaml
+  - override /datamodule: bin_datamodule.yaml
+
+run_group: rf_sr
+
+datamodule:
+  data_hyperparameters:
+    data_selection:
+      value: "scene_relative"
+    frames_per_bin: 90
+
+model:
+  hyperparameters:
+    n_estimators: 85
+    min_samples_leaf: 78

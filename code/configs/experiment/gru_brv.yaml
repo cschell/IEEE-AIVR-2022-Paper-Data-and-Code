@@ -1,0 +1,26 @@
+# @package _global_
+
+defaults:
+  - override /model: rnn_model.yaml
+  - override /datamodule: window_datamodule.yaml
+
+run_group: gru_brv
+
+datamodule:
+  batch_size: 2000
+  data_hyperparameters:
+    data_selection:
+      value: "body_relative_velocity"
+    fps: 30
+    window_size: 300
+
+lightning_module:
+  optimizer_options:
+    lr: 0.00182
+
+model:
+  hyperparameters:
+    cell_type: "GRU"
+    num_rnn_layers: 3
+    rnn_hidden_size: 160
+    dropout: 0.05225

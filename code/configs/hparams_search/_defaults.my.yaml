@@ -1,0 +1,38 @@
+# @package _global_
+
+defaults:
+  - override /hydra/sweeper: optuna
+
+# metric to optimize for
+optimize_metric: "min_accuracy/val"
+optimize_direction: ${hydra:sweeper.direction} # should be "maximize"
+
+hydra:
+  # here we define Optuna hyperparameter search
+  # it optimizes for the value returned from train() in src.train
+  # learn more here: https://hydra.cc/docs/next/plugins/optuna_sweeper
+  sweeper:
+    _target_: hydra_plugins.hydra_optuna_sweeper.optuna_sweeper.OptunaSweeper
+    study_name: MISSING
+    n_jobs: 1
+
+    #    # saves results in a sqlite db, so multiple searches can run at once (e.g., when run by multiple jobs on a cluster)
+    #    storage: sqlite:///optuna.db
+
+    storage:
+      _target_: optuna.storages.RDBStorage
+      url: postgresql://uaixdlamds_optuna:9lMadHgls2dt17M6E6xNs@132.187.8.222/uaixdlamds_optuna
+      heartbeat_interval: 60
+      grace_period: 130
+      engine_kwargs:
+        pool_recycle: 20
+        pool_pre_ping: True
+
+    # 'minimize' or 'maximize' the objective
+    direction: maximize
+
+    # number of experiments that will be executed
+    n_trials: 1000
+
+    # define range of hyperparameters
+    search_space: { }

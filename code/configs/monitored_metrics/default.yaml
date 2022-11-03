@@ -1,0 +1,40 @@
+metrics:
+  - name: accuracy
+    dataset: val
+    mode: max
+
+  - name: min_accuracy
+    dataset: val
+    mode: max
+
+  - name: min_accuracy
+    dataset: train
+    mode: max
+
+  - name: f1
+    dataset: val
+    mode: max
+
+  - name: precision
+    dataset: val
+    mode: max
+
+  - name: recall
+    dataset: val
+    mode: max
+
+  - name: cohen_kappa
+    dataset: val
+    mode: max
+
+  - name: matthews_corrcoef
+    dataset: val
+    mode: max
+
+  - name: matthews_corrcoef
+    dataset: train
+    mode: max
+
+  - name: num_correct_takes
+    dataset: val
+    mode: max

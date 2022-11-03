@@ -1,0 +1,6 @@
+_target_: src.hyperparameters.rnn_hyperparameters.RNNHyperparameters
+
+cell_type: MISSING
+dropout: MISSING
+num_rnn_layers: MISSING
+rnn_hidden_size: MISSING

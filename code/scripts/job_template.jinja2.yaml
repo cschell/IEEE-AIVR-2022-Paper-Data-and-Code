@@ -1,0 +1,109 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ job_name }}
+  labels:
+    run_group: {{ run_group }}
+spec:
+  metadata:
+    labels:
+        run_group: {{ run_group }}
+  backoffLimit: 10
+  template:
+    spec:
+      priorityClassName: {{ priority_class }}
+      restartPolicy: Never
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: NotIn
+                values:
+                - ancalagon
+      initContainers:
+        - name: cache-data
+          image: busybox
+          command: ["/bin/sh"]
+          args: ["-c", "/bin/cp -R -u -p /data/2021-12-03_twh_quaternions_uaixdlamds.hdf5 /cached-data/"]
+          volumeMounts:
+            - name: cached-data
+              mountPath: /cached-data/
+            - name: data
+              mountPath: /data/
+          resources:
+            limits:
+              cpu: "2"
+              memory: "1Gi"
+            requests:
+              cpu: "2"
+              memory: "1Gi"
+      containers:
+        - name: ml-container
+          image: gitlab2.informatik.uni-wuerzburg.de:4567/chris/uaixdlamds:{{image_tag}}
+          {% if image_tag == "latest" %}
+          imagePullPolicy: "Always"
+          {% else %}
+          imagePullPolicy: "IfNotPresent"
+          {% endif %}
+          resources:
+            limits:
+              {% if use_gpu -%}nvidia.com/gpu: "1" {% endif %}
+              cpu: "{{ cpus }}"
+              memory: "{{ memory*2 }}Gi"
+            requests:
+              {% if use_gpu -%}nvidia.com/gpu: "1" {% endif %}
+              cpu: "{{cpus}}"
+              memory: "{{ memory }}Gi"
+          volumeMounts:
+            - name: cached-data
+              mountPath: /workdir/data
+            - name: archive
+              mountPath: /workdir/runs
+              subPath: logs
+            - name: archive
+              mountPath: /workdir/.env
+              subPath: .env
+            - name: shm
+              mountPath: "/dev/shm"
+          command: ["python3.8",  "{{script}}", "-m", "hparams_search={{hps_name}}"]
+          env:
+          - name: HOME
+            value: "/workdir"
+          - name: NUMBA_CACHE_DIR
+            value: "/tmp"
+          - name: NODE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+      imagePullSecrets:
+        - name: uaixdlamds
+      volumes:
+        - name: cached-data
+          emptyDir: {}
+        - name: data
+          cephfs:
+            monitors:
+              - 132.187.14.16
+              - 132.187.14.17
+              - 132.187.14.19
+              - 132.187.14.20
+            user: extschell
+            path: "/home/ext/schell/data/uaixdlamds/"
+            secretRef:
+              name: ceph-secret
+        - name: archive
+          cephfs:
+            monitors:
+              - 132.187.14.16
+              - 132.187.14.17
+              - 132.187.14.19
+              - 132.187.14.20
+            user: extschell
+            path: "/home/ext/schell/archive/uaixdlamds/"
+            secretRef:
+              name: ceph-secret
+        - name: shm
+          emptyDir:
+            medium: Memory

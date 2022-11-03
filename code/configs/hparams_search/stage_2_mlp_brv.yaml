@@ -1,0 +1,43 @@
+# @package _global_
+
+defaults:
+  - /hparams_search/_defaults.yaml
+  - override /model: mlp_model.yaml
+  - override /datamodule: bin_datamodule.yaml
+  - override /hydra/sweeper/sampler: grid
+
+run_group: mlp_brv_data
+
+datamodule:
+  batch_size: 6000
+  data_hyperparameters:
+    data_selection:
+      value: "body_relative_velocity"
+
+
+lightning_module:
+  optimizer_options:
+    lr: 0.01033
+
+model:
+  hyperparameters:
+    number_of_layers: 6
+    layer_size: 83
+
+hydra:
+  sweeper:
+    study_name: ${run_group}
+    # number of experiments that will be executed
+    n_trials: 1000
+
+    sampler:
+      _target_: src.optuna.samplers.custom_grid_sampler.CustomGridSampler
+      search_space:
+        datamodule.data_hyperparameters.frames_per_bin: [ 900, 1350 ] #, 10, 30, 60, 90, 120, 180, 350, 500, 700 ]
+
+    # define range of hyperparameters
+    search_space:
+      datamodule.data_hyperparameters.frames_per_bin:
+        type: int
+        low: 10
+        high: 700

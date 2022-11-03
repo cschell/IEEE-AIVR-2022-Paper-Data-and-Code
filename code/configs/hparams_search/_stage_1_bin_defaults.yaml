@@ -1,0 +1,7 @@
+# @package _global_
+
+cache_datamodule: True
+
+datamodule:
+  data_hyperparameters:
+    frames_per_bin: 90

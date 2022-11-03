@@ -1,0 +1,23 @@
+# @package _global_
+
+defaults:
+  - override /model: mlp_model.yaml
+  - override /datamodule: bin_datamodule.yaml
+
+run_group: mlp_sr
+
+datamodule:
+  batch_size: 2000
+  data_hyperparameters:
+    data_selection:
+      value: "scene_relative"
+    frames_per_bin: 120
+
+lightning_module:
+  optimizer_options:
+    lr: 0.01382
+
+model:
+  hyperparameters:
+    number_of_layers: 1
+    layer_size: 204

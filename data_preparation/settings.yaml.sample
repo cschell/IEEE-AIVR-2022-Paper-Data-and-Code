@@ -1,0 +1,5 @@
+talking_with_hands_directory: /path/to/TalkingWithHands32M
+database:
+  dbname: talking_with_hands
+  user: your_username
+  password: your_password

@@ -1,0 +1,26 @@
+# @package _global_
+
+defaults:
+  - override /model: rnn_model.yaml
+  - override /datamodule: window_datamodule.yaml
+
+run_group: rnn_br
+
+datamodule:
+  batch_size: 2000
+  data_hyperparameters:
+    data_selection:
+      value: "body_relative"
+    fps: 30
+    window_size: 30
+
+lightning_module:
+  optimizer_options:
+    lr: 0.00133
+
+model:
+  hyperparameters:
+    cell_type: "RNN"
+    num_rnn_layers: 4
+    rnn_hidden_size: 20
+    dropout: 0.34206

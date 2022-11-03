@@ -1,0 +1,32 @@
+# @package _global_
+
+defaults:
+  - /hparams_search/_defaults.yaml
+  - /hparams_search/_stage_1_bin_defaults.yaml
+  - override /model: random_forest_model.yaml
+  - override /datamodule: bin_datamodule.yaml
+
+run_group: rf_br
+
+datamodule:
+  batch_size: 6000
+  data_hyperparameters:
+    data_selection:
+      value: "body_relative"
+
+hydra:
+  sweeper:
+    study_name: ${run_group}
+    # number of experiments that will be executed
+    n_trials: 100
+
+    # define range of hyperparameters
+    search_space:
+      model.hyperparameters.min_samples_leaf:
+        type: int
+        low: 1
+        high: 1000
+      model.hyperparameters.n_estimators:
+        type: int
+        low: 50
+        high: 1000

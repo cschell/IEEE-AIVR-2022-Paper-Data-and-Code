@@ -1,0 +1,9 @@
+_target_: src.hyperparameters.data_hyperparameters.WindowDataHyperparameters
+
+defaults:
+  - data_selection: data_selection.yaml
+
+fps: MISSING
+window_size: MISSING
+data_selection:
+  value: MISSING

@@ -1,0 +1,51 @@
+# @package _global_
+
+defaults:
+  - /hparams_search/_defaults.yaml
+  - /hparams_search/_stage_2_defaults.yaml
+  - override /model: rnn_model.yaml
+  - override /datamodule: window_datamodule.yaml
+  - override /hydra/sweeper/sampler: grid
+
+run_group: rnn_sr_data
+
+datamodule:
+  batch_size: 1000
+  data_hyperparameters:
+    data_selection:
+      value: "scene_relative"
+
+lightning_module:
+  optimizer_options:
+    lr: 0.00147
+
+model:
+  hyperparameters:
+    cell_type: "RNN"
+    num_rnn_layers: 5
+    rnn_hidden_size: 180
+    dropout: 0.55282
+
+hydra:
+  sweeper:
+    study_name: ${run_group}
+    # number of experiments that will be executed
+    n_trials: 1000
+
+    sampler:
+      _target_: src.optuna.samplers.custom_grid_sampler.CustomGridSampler
+      search_space:
+        datamodule.data_hyperparameters.fps: [ 10, 30, 60, 90 ]
+        datamodule.data_hyperparameters.window_size: [ 10, 100, 300 ]
+
+    # define range of hyperparameters
+    search_space:
+
+      datamodule.data_hyperparameters.fps:
+        type: int
+        low: 10
+        high: 90
+      datamodule.data_hyperparameters.window_size:
+        type: int
+        low: 10
+        high: 600

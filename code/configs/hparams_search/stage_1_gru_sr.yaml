@@ -1,0 +1,44 @@
+# @package _global_
+
+defaults:
+  - /hparams_search/_defaults.yaml
+  - /hparams_search/_stage_1_window_defaults.yaml
+  - override /model: rnn_model.yaml
+  - override /datamodule: window_datamodule.yaml
+
+run_group: gru_sr
+
+datamodule:
+  batch_size: 6000
+  data_hyperparameters:
+    data_selection:
+      value: "scene_relative"
+
+model:
+  hyperparameters:
+    cell_type: "GRU"
+
+hydra:
+  sweeper:
+    study_name: ${run_group}
+    # number of experiments that will be executed
+    n_trials: 100
+
+    # define range of hyperparameters
+    search_space:
+      lightning_module.optimizer_options.lr:
+        type: float
+        low: 1e-4
+        high: 0.01
+      model.hyperparameters.dropout:
+        type: float
+        low: 0
+        high: 0.6
+      model.hyperparameters.num_rnn_layers:
+        type: int
+        low: 1
+        high: 8
+      model.hyperparameters.rnn_hidden_size:
+        type: categorical
+        choices: [20, 60, 100, 140, 160, 180, 200]
+

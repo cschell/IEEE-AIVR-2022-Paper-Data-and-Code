@@ -1,0 +1,6 @@
+# @package _global_
+
+trainer:
+  check_val_every_n_epoch: 1
+  min_epochs: 15
+  max_epochs: 100

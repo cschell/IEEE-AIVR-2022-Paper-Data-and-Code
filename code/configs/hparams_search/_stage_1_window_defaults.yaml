@@ -1,0 +1,7 @@
+# @package _global_
+
+cache_datamodule: True
+datamodule:
+  data_hyperparameters:
+    fps: 30
+    window_size: 30

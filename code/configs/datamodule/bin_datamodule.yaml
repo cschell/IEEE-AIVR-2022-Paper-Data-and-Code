@@ -1,0 +1,8 @@
+_target_: src.datamodules.talking_with_hands_datamodules.BinDatamodule
+
+defaults:
+  - /data_hyperparameters: bin_data_hyperparameters.yaml
+
+batch_size: 30000
+data_stats_path: "train_stats.json"
+data_path: ${data_dir}/2021-12-talking_with_hands_data.hdf5

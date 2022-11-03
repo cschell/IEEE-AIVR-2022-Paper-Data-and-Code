@@ -1,0 +1,36 @@
+# @package _global_
+
+defaults:
+  - /hparams_search/_defaults.yaml
+  - /hparams_search/_stage_1_bin_defaults.yaml
+  - override /model: mlp_model.yaml
+  - override /datamodule: bin_datamodule.yaml
+
+run_group: mlp_sr
+
+datamodule:
+  batch_size: 6000
+  data_hyperparameters:
+    data_selection:
+      value: "scene_relative"
+
+hydra:
+  sweeper:
+    study_name: ${run_group}
+    # number of experiments that will be executed
+    n_trials: 20
+
+    # define range of hyperparameters
+    search_space:
+      lightning_module.optimizer_options.lr:
+        type: float
+        low: 1e-5
+        high: 0.1
+      model.hyperparameters.layer_size:
+        type: int
+        low: 10
+        high: 300
+      model.hyperparameters.number_of_layers:
+        type: int
+        low: 1
+        high: 6

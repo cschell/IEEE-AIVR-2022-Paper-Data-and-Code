@@ -1,0 +1,5 @@
+_target_: src.hyperparameters.mlp_hyperparameters.MLPHyperparameters
+
+layer_size: MISSING
+number_of_layers: MISSING
+activation_function: "Tanh"

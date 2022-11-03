@@ -1,0 +1,6 @@
+_target_: src.models.random_forest_model.RandomForestModel
+
+defaults:
+  - hyperparameters: random_forest_hyperparameters.yaml
+
+n_jobs: -1

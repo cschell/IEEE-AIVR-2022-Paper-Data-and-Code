@@ -1,0 +1,10 @@
+_target_: pytorch_lightning.Trainer
+
+gpus: 1
+check_val_every_n_epoch: 4
+min_epochs: 30
+max_epochs: 300
+deterministic: True
+weights_summary: "full"
+num_sanity_val_steps: 0
+auto_scale_batch_size: True

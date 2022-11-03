@@ -1,0 +1,16 @@
+*.csv
+*.pyc
+.DS_Store
+.git
+.idea
+__pycache__
+data
+outputs
+results
+videos
+logs
+.dvc
+final_models
+tmp
+multirun
+mlruns
