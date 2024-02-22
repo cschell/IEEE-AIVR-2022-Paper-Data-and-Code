@@ -2,7 +2,7 @@
 
 This repository contains data and code from the paper ["Comparison of Data Encodings and Machine Learning Architectures for User Identification on Arbitrary Motion Sequences"](https://www.bibsonomy.org/bibtex/25a80aafea4af83be01e831e36d529c80/hci-uwb) published on the IEEE AIVR 2022 by Christian Schell, Andreas Hotho and Marc Erich Latoschik.
 
-If you have any questions, feel free to open an issue or to contact [Christian Schell](christian.schell@uni-wuerzburg.de).
+If you have any questions, feel free to open an issue or to contact [Christian Racl](christian.rack@uni-wuerzburg.de).
 
 ## Structure
 
@@ -18,7 +18,7 @@ We used the code published in this repository as basis for subsequent publicatio
 
 ```
 @inproceedings{schell2022comparison,
-  author = {Schell, Christian and Hotho, Andreas and Latoschik, Marc Erich},
+  author = {Rack, Christian and Hotho, Andreas and Latoschik, Marc Erich},
   biburl = {https://www.bibsonomy.org/bibtex/25a80aafea4af83be01e831e36d529c80/hci-uwb},
   booktitle = {Proceedings of the IEEE International conference on artificial intelligence & Virtual Reality (IEEE AIVR)},
   note = {to appear},
